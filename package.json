@@ -1,0 +1,20 @@
+{
+  "name": "playwright-tests",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "bddgen && playwright test",
+    "test:smoke": "bddgen && playwright test --project=\"Smoke Tests\"",
+    "test:regression": "bddgen && playwright test --project=\"Regression Tests\"",
+    "test:e2e": "bddgen && playwright test --project=\"E2E Tests\"",
+    "test:headed": "bddgen && playwright test --headed",
+    "test:report": "playwright show-report",
+    "bddgen": "bddgen"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.52.0",
+    "@types/node": "^22.19.17",
+    "dotenv": "^17.4.2",
+    "playwright-bdd": "^8.5.0",
+    "typescript": "^6.0.3"
+  }
+}
