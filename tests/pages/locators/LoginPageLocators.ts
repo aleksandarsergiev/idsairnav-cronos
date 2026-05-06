@@ -5,6 +5,7 @@ export class LoginPageLocators {
   readonly passwordInput: Locator;
   readonly signInButton: Locator;
   readonly forgotPasswordLink: Locator;
+  readonly signUpLink: Locator;
   readonly errorMessage: Locator;
 
   constructor(page: Page) {
@@ -12,6 +13,7 @@ export class LoginPageLocators {
     this.passwordInput = page.getByLabel('Password');
     this.signInButton = page.getByRole('button', { name: 'Sign In' });
     this.forgotPasswordLink = page.getByRole('link', { name: 'Forgot password?' });
+    this.signUpLink = page.getByRole('link', { name: 'Sign up' });
     this.errorMessage = page.locator('.alert.alert-error');
   }
 }
