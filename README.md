@@ -172,16 +172,3 @@ USER2_USERNAME
 USER2_PASSWORD
 ```
 
----
-
-## CI / Jenkins
-
-Set the following environment variables in your Jenkins configuration instead of using a `.env` file:
-
-```
-BASE_URL
-USER1_USERNAME
-USER1_PASSWORD
-USER2_USERNAME
-USER2_PASSWORD
-```
