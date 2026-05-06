@@ -38,7 +38,6 @@ jobs:
 
       - name: Run tests
         run: npm test
-        continue-on-error: true
         env:
           CI: true
           BASE_URL: ${{ secrets.BASE_URL }}
@@ -48,7 +47,7 @@ jobs:
           USER2_PASSWORD: ${{ secrets.USER2_PASSWORD }}
 
       - name: Upload test results
-        if: always()
+        if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: test-results
@@ -56,10 +55,12 @@ jobs:
           retention-days: 7
 
       - name: Upload Pages artifact
+        if: always()
         uses: actions/upload-pages-artifact@v3
         with:
           path: playwright-report/
 
       - name: Deploy to GitHub Pages
+        if: always()
         id: deployment
         uses: actions/deploy-pages@v4
