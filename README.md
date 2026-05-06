@@ -136,6 +136,44 @@ npm run test:report
 
 ---
 
+## CI / GitHub Actions
+
+Every push to `main` automatically triggers the pipeline which:
+1. Installs dependencies and Playwright browsers
+2. Runs all tests
+3. Publishes the HTML report to GitHub Pages
+
+### Viewing the pipeline
+
+Go to the repository → **Actions** to see all pipeline runs, step-by-step logs, and pass/fail status.
+
+### Viewing the report
+
+The latest test report is always available at:
+
+```
+https://aleksandarsergiev.github.io/idsairnav-cronos
+```
+
+The report is updated automatically after every pipeline run.
+
+### GitHub Secrets
+
+The pipeline reads credentials from GitHub Repository Secrets. To set them up:
+
+1. Go to repository → **Settings** → **Secrets and variables** → **Actions**
+2. Add the following **Repository secrets**:
+
+```
+BASE_URL
+USER1_USERNAME
+USER1_PASSWORD
+USER2_USERNAME
+USER2_PASSWORD
+```
+
+---
+
 ## CI / Jenkins
 
 Set the following environment variables in your Jenkins configuration instead of using a `.env` file:
