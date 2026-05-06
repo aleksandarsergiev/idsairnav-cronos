@@ -3,7 +3,7 @@ import { HomePageLocators } from '../locators/HomePageLocators';
 import { BasePage } from './BasePage';
 
 export class HomePage extends BasePage {
-  readonly locators: HomePageLocators;
+  private readonly locators: HomePageLocators;
 
   constructor(page: Page) {
     super(page);

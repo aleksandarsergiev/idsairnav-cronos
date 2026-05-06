@@ -28,7 +28,7 @@ When('I sign in as {string}', async ({ loginPage }, userKey: string) => {
   await loginPage.clickSignIn();
 });
 
-When('I click the Forgot password link', async ({ loginPage }) => {
+When('I click the forgot password link', async ({ loginPage }) => {
   await loginPage.clickForgotPassword();
 });
 
@@ -37,5 +37,5 @@ Then('I should be signed in successfully', async ({ page }) => {
 });
 
 Then('I should see the error message {string}', async ({ loginPage }, message: string) => {
-  await expect(loginPage.locators.errorMessage).toContainText(message);
+  await expect(loginPage.errorMessage).toContainText(message);
 });

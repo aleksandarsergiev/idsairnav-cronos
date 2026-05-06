@@ -3,10 +3,14 @@ import { ForgotPasswordPageLocators } from '../locators/ForgotPasswordPageLocato
 import { BasePage } from './BasePage';
 
 export class ForgotPasswordPage extends BasePage {
-  readonly locators: ForgotPasswordPageLocators;
+  private readonly locators: ForgotPasswordPageLocators;
 
   constructor(page: Page) {
     super(page);
     this.locators = new ForgotPasswordPageLocators(page);
+  }
+
+  get heading() {
+    return this.locators.heading;
   }
 }

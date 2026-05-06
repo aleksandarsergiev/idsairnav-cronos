@@ -7,6 +7,6 @@ Given('I navigate to the Home Page', async ({ homePage }) => {
   await homePage.navigate();
 });
 
-When('I click the Login button', async ({ homePage }) => {
+When('I click the login button', async ({ homePage }) => {
   await homePage.clickLogin();
 });

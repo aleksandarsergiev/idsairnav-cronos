@@ -3,7 +3,7 @@ import { LoginPageLocators } from '../locators/LoginPageLocators';
 import { BasePage } from './BasePage';
 
 export class LoginPage extends BasePage {
-  readonly locators: LoginPageLocators;
+  private readonly locators: LoginPageLocators;
 
   constructor(page: Page) {
     super(page);
@@ -29,5 +29,9 @@ export class LoginPage extends BasePage {
 
   async clickForgotPassword() {
     await this.locators.forgotPasswordLink.click();
+  }
+
+  get errorMessage() {
+    return this.locators.errorMessage;
   }
 }
