@@ -2,11 +2,13 @@ import { test as base } from 'playwright-bdd';
 import { LoginPage } from '../pages/page/LoginPage';
 import { HomePage } from '../pages/page/HomePage';
 import { ForgotPasswordPage } from '../pages/page/ForgotPasswordPage';
+import { CreateAccountPage } from '../pages/page/CreateAccountPage';
 
 export const test = base.extend<{
   loginPage: LoginPage;
   homePage: HomePage;
   forgotPasswordPage: ForgotPasswordPage;
+  createAccountPage: CreateAccountPage;
 }>({
   loginPage: async ({ page }, use) => {
     await use(new LoginPage(page));
@@ -16,5 +18,8 @@ export const test = base.extend<{
   },
   forgotPasswordPage: async ({ page }, use) => {
     await use(new ForgotPasswordPage(page));
+  },
+  createAccountPage: async ({ page }, use) => {
+    await use(new CreateAccountPage(page));
   },
 });

@@ -31,6 +31,10 @@ export class LoginPage extends BasePage {
     await this.locators.forgotPasswordLink.click();
   }
 
+  async clickSignUp() {
+    await this.locators.signUpLink.click();
+  }
+
   get errorMessage() {
     return this.locators.errorMessage;
   }

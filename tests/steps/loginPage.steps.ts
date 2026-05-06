@@ -32,6 +32,10 @@ When('I click the forgot password link', async ({ loginPage }) => {
   await loginPage.clickForgotPassword();
 });
 
+When('I click the sign up button', async ({ loginPage }) => {
+  await loginPage.clickSignUp();
+});
+
 Then('I should be signed in successfully', async ({ page }) => {
   await expect(page).toHaveURL(/panel/);
 });
