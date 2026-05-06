@@ -157,6 +157,17 @@ https://aleksandarsergiev.github.io/idsairnav-cronos
 
 The report is updated automatically after every pipeline run.
 
+### Downloading screenshots on failure
+
+When a test fails, screenshots are automatically uploaded as a pipeline artifact and kept for 7 days. To access them:
+
+1. Go to the repository → **Actions**
+2. Select the failed pipeline run
+3. Scroll to the **Artifacts** section at the bottom
+4. Download **test-results**
+
+> Screenshots are only uploaded when the pipeline fails — no artifacts are produced on a passing run.
+
 ### GitHub Secrets
 
 The pipeline reads credentials from GitHub Repository Secrets. To set them up:
