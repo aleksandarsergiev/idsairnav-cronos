@@ -143,6 +143,8 @@ Every push to `main` automatically triggers the pipeline which:
 2. Runs all tests
 3. Publishes the HTML report to GitHub Pages
 
+The pipeline **passes** only if all tests pass. If any test fails, it is retried up to 2 times before the pipeline is marked as **failed**.
+
 ### Viewing the pipeline
 
 Go to the repository → **Actions** to see all pipeline runs, step-by-step logs, and pass/fail status.
