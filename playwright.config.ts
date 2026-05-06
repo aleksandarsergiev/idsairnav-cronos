@@ -16,7 +16,7 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: [
     ['list'],
-    ['html', { open: 'always' }],
+    ['html', { open: process.env.CI ? 'never' : 'always' }],
   ],
   use: {
     baseURL: process.env.BASE_URL,
