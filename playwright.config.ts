@@ -25,6 +25,7 @@ export default defineConfig({
     navigationTimeout: 30000,
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
+    video: 'retain-on-failure',
   },
   projects: [
     {
