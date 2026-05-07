@@ -5,3 +5,4 @@ test-results/
 .env
 cookies.txt
 .claude/
+storageState.json

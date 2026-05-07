@@ -9,6 +9,7 @@ const testDir = defineBddConfig({
 
 export default defineConfig({
   testDir,
+  globalSetup: './tests/support/globalSetup.ts',
   timeout: 30000,
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
@@ -42,6 +43,14 @@ export default defineConfig({
       name: 'E2E Tests',
       grep: /@e2e/,
       use: { ...devices['Desktop Chrome'] },
+    },
+    {
+      name: 'Authenticated Tests',
+      grep: /@authenticated/,
+      use: {
+        ...devices['Desktop Chrome'],
+        storageState: 'storageState.json',
+      },
     },
   ],
 });
