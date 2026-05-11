@@ -52,5 +52,12 @@ export default defineConfig({
         storageState: 'storageState.json',
       },
     },
+    {
+      name: 'API Tests',
+      grep: /@api/,
+      use: {
+        baseURL: process.env.API_BASE_URL,
+      },
+    },
   ],
 });

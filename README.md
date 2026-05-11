@@ -1,6 +1,6 @@
-# idsairnav-cronos — Playwright E2E Test Framework
+# idsairnav-cronos — Playwright Test Framework
 
-A BDD-based end-to-end test automation framework built with [Playwright](https://playwright.dev) and [playwright-bdd](https://vitalets.github.io/playwright-bdd), using Gherkin feature files to describe test scenarios in plain language.
+A BDD-based test automation framework built with [Playwright](https://playwright.dev) and [playwright-bdd](https://vitalets.github.io/playwright-bdd), using Gherkin feature files to describe test scenarios in plain language. Supports both UI (browser) and API (HTTP) tests.
 
 ---
 
@@ -19,15 +19,25 @@ A BDD-based end-to-end test automation framework built with [Playwright](https:/
 
 ```
 tests/
-├── data/                   # Test data (users, credentials)
+├── api/
+│   └── clients/            # API client classes (per resource)
+├── credentials/            # Environment-derived credentials (UI & API)
 ├── features/               # Gherkin feature files
-│   └── regression/
+│   ├── api/
+│   │   ├── regression/
+│   │   └── sanity/
+│   └── ui/
+│       ├── regression/
+│       └── sanity/
 ├── pages/
 │   ├── locators/           # Playwright locators per page
 │   └── page/               # Page classes with actions & getters
-├── steps/                  # Step definitions per page
+├── steps/
+│   ├── api/                # API step definitions
+│   └── ui/                 # UI step definitions
 └── support/
     ├── fixtures.ts         # Custom Playwright fixtures
+    ├── globalSetup.ts      # One-time setup (storageState login)
     └── hooks.ts            # BDD hooks
 playwright.config.ts
 ```
@@ -62,6 +72,9 @@ USER1_USERNAME=
 USER1_PASSWORD=
 USER2_USERNAME=
 USER2_PASSWORD=
+API_BASE_URL=
+API_USERNAME=
+API_PASSWORD=
 ```
 
 > `.env` is git-ignored and must never be committed.
@@ -76,6 +89,7 @@ USER2_PASSWORD=
 | `npm run test:regression` | Run regression tests only |
 | `npm run test:smoke` | Run smoke tests only |
 | `npm run test:e2e` | Run E2E tests only |
+| `npm run test:api` | Run API tests only |
 | `npm run test:headed` | Run all tests in headed (visible) mode |
 | `npm run test:report` | Open the last HTML report manually |
 
@@ -83,13 +97,15 @@ USER2_PASSWORD=
 
 ## Test Projects & Tags
 
-Tests are organised into three Playwright projects, filtered by Gherkin tags:
+Tests are organised into Playwright projects, filtered by Gherkin tags:
 
 | Project | Tag | Description |
 |---------|-----|-------------|
-| Regression Tests | `@regression` | Full regression suite |
-| Smoke Tests | `@smoke` | Critical path checks |
+| Regression Tests | `@regression` | Full UI regression suite |
+| Smoke Tests | `@smoke` | Critical UI path checks |
 | E2E Tests | `@e2e` | End-to-end user journeys |
+| Authenticated Tests | `@authenticated` | UI tests that reuse a saved login session |
+| API Tests | `@api` | HTTP/API tests (no browser) |
 
 Tag your feature files accordingly:
 
@@ -103,7 +119,7 @@ Feature: Sign In
 
 ## Architecture
 
-### Page Object Model
+### Page Object Model (UI)
 
 The `pages/` folder is split into two layers:
 
@@ -113,6 +129,16 @@ The `pages/` folder is split into two layers:
 All page classes extend `BasePage`, which provides shared behaviour such as cookie banner dismissal.
 
 Step definitions only interact with page classes — never with the locators layer directly.
+
+### API Clients
+
+The `tests/api/clients/` folder mirrors the page-object pattern for HTTP calls:
+
+- Each client wraps endpoints related to one resource (e.g. `SessionClient` → `/session/*`)
+- Clients receive an `APIRequestContext` via constructor — they never create their own
+- They return raw `APIResponse` objects so step files own the assertions
+
+Step definitions inject clients via the `sessionClient` fixture and the per-test `apiContext` fixture (holds the response between `When` and `Then`).
 
 ### BDD Flow
 
@@ -183,5 +209,8 @@ USER1_USERNAME
 USER1_PASSWORD
 USER2_USERNAME
 USER2_PASSWORD
+API_BASE_URL
+API_USERNAME
+API_PASSWORD
 ```
 
