@@ -4,7 +4,8 @@ import { LoginPage } from '../pages/page/LoginPage';
 
 async function globalSetup() {
   const browser = await chromium.launch();
-  const page = await browser.newPage();
+  const context = await browser.newContext({ baseURL: process.env.BASE_URL });
+  const page = await context.newPage();
 
   const loginPage = new LoginPage(page);
   await loginPage.navigate();
