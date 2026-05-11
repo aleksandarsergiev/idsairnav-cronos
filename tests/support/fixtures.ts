@@ -8,6 +8,7 @@ import { SessionClient } from '../api/clients/SessionClient';
 
 export type ApiContext = {
   response?: APIResponse;
+  csrfToken?: string;
 };
 
 export const test = base.extend<{
