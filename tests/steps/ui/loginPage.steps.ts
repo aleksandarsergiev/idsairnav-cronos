@@ -1,7 +1,7 @@
 import { expect } from '@playwright/test';
 import { createBdd } from 'playwright-bdd';
-import { test } from '../support/fixtures';
-import { users } from '../data/users';
+import { test } from '../../support/fixtures';
+import { users } from '../../data/users';
 
 const { Given, When, Then } = createBdd(test);
 
