@@ -14,6 +14,5 @@ Then('the response status should be {int}', async ({ apiContext }, status: numbe
 
 Then('the response field {string} should be {string}', async ({ apiContext }, field: string, expected: string) => {
   const body = await apiContext.response!.json();
-  console.log(body);
   expect(body[field]).toBe(expected);
 });
