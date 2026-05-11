@@ -1,0 +1,13 @@
+import { expect } from '@playwright/test';
+import { createBdd } from 'playwright-bdd';
+import { test } from '../../support/fixtures';
+
+const { When, Then } = createBdd(test);
+
+When('I send a get sidebar request', async ({ layoutClient, apiContext }) => {
+  apiContext.response = await layoutClient.getSidebar();
+});
+
+Then('the response status should be {int}', async ({ apiContext }, status: number) => {
+  expect(apiContext.response!.status()).toBe(status);
+});
