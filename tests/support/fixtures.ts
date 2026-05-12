@@ -1,4 +1,4 @@
-import { APIResponse, request as apiRequest } from '@playwright/test';
+import { APIRequestContext, APIResponse, request as apiRequest } from '@playwright/test';
 import { test as base } from 'playwright-bdd';
 import { LoginPage } from '../pages/page/LoginPage';
 import { HomePage } from '../pages/page/HomePage';
@@ -13,8 +13,11 @@ export type ApiContext = {
   response?: APIResponse;
 };
 
+type StorageState = Awaited<ReturnType<APIRequestContext['storageState']>>;
+
 export type ApiAuth = {
   csrfToken: string;
+  storageState: StorageState;
 };
 
 export const test = base.extend<
@@ -53,7 +56,8 @@ export const test = base.extend<
       const session = new SessionClient(request);
       const response = await session.login(apiCredentials.userLogin, apiCredentials.password);
       const csrfToken = response.headers()['x-csrf-token'];
-      await use({ csrfToken });
+      const storageState = await request.storageState();
+      await use({ csrfToken, storageState });
       await request.dispose();
     },
     { scope: 'worker' },
@@ -61,6 +65,7 @@ export const test = base.extend<
 
   layoutClient: async ({ apiAuth }, use) => {
     const request = await apiRequest.newContext({
+      storageState: apiAuth.storageState,
       extraHTTPHeaders: { 'X-CSRF-TOKEN': apiAuth.csrfToken },
     });
     await use(new LayoutClient(request));
@@ -69,6 +74,7 @@ export const test = base.extend<
 
   fplOfficeClient: async ({ apiAuth }, use) => {
     const request = await apiRequest.newContext({
+      storageState: apiAuth.storageState,
       extraHTTPHeaders: { 'X-CSRF-TOKEN': apiAuth.csrfToken },
     });
     await use(new FplOfficeClient(request));
