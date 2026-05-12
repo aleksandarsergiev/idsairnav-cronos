@@ -5,5 +5,5 @@ Feature: Create Account Navigation
     Given I navigate to the Home Page
     When I click the login button
     And I click the sign up button
-    Then the create account page heading should be "Create an accountt"
+    Then the create account page heading should be "Create an account"
     And the create account page url should contain "/signup"
