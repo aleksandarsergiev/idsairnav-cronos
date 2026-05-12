@@ -12,6 +12,6 @@ Then('the sidebar should be retrieved successfully', async ({ apiContext }) => {
   expectResponseStatus(apiContext.response!, 200);
 });
 
-Then('the response should contain:', async ({ apiContext }, dataTable: DataTable) => {
+Then('the sidebar response should contain:', async ({ apiContext }, dataTable: DataTable) => {
   await expectResponseToContain(apiContext.response!, dataTable);
 });
