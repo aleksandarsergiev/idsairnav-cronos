@@ -6,6 +6,7 @@ import { ForgotPasswordPage } from '../pages/page/ForgotPasswordPage';
 import { CreateAccountPage } from '../pages/page/CreateAccountPage';
 import { SessionClient } from '../api/clients/SessionClient';
 import { LayoutClient } from '../api/clients/LayoutClient';
+import { FplOfficeClient } from '../api/clients/FplOfficeClient';
 import { apiCredentials } from '../credentials/apiCredentials';
 
 export type ApiContext = {
@@ -24,6 +25,7 @@ export const test = base.extend<
     createAccountPage: CreateAccountPage;
     apiContext: ApiContext;
     layoutClient: LayoutClient;
+    fplOfficeClient: FplOfficeClient;
   },
   {
     apiAuth: ApiAuth;
@@ -62,6 +64,14 @@ export const test = base.extend<
       extraHTTPHeaders: { 'X-CSRF-TOKEN': apiAuth.csrfToken },
     });
     await use(new LayoutClient(request));
+    await request.dispose();
+  },
+
+  fplOfficeClient: async ({ apiAuth }, use) => {
+    const request = await apiRequest.newContext({
+      extraHTTPHeaders: { 'X-CSRF-TOKEN': apiAuth.csrfToken },
+    });
+    await use(new FplOfficeClient(request));
     await request.dispose();
   },
 });
