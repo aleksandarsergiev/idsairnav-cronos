@@ -8,4 +8,8 @@ export class FplOfficeClient {
       data: body,
     });
   }
+
+  async delete(id: string): Promise<APIResponse> {
+    return this.request.delete(`${process.env.API_BASE_URL}/fploffices/${encodeURIComponent(id)}`);
+  }
 }
