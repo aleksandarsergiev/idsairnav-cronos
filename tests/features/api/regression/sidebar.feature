@@ -1,7 +1,9 @@
 @api
 Feature: Sidebar API
 
-  Scenario: Retrieve sidebar layout
-    When I send a get sidebar request
-    Then the response status should be 200
-    And the response field "localizedStatusDescription" should be "Operation completed successfully"
+  Scenario: Retrieve sidebar layout successfully
+    When I request the sidebar layout
+    Then the response status code should be 200
+    And the response should contain:
+      | field                      | value                            |
+      | localizedStatusDescription | Operation completed successfully |
