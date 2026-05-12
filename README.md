@@ -130,21 +130,61 @@ All page classes extend `BasePage`, which provides shared behaviour such as cook
 
 Step definitions only interact with page classes — never with the locators layer directly.
 
-### API Clients
+### Authenticated UI Tests
 
-The `tests/api/clients/` folder mirrors the page-object pattern for HTTP calls:
+Tests tagged `@authenticated` reuse a saved browser session instead of logging in through the UI each time:
 
-- Each client wraps endpoints related to one resource (e.g. `SessionClient` → `/session/*`)
-- Clients receive an `APIRequestContext` via constructor — they never create their own
-- They return raw `APIResponse` objects so step files own the assertions
+- `tests/support/globalSetup.ts` runs once before any test — it launches a browser, signs in via `LoginPage`, and saves the session to `storageState.json` (git-ignored).
+- The `Authenticated Tests` project loads `storageState.json` as the browser's starting state, so any test tagged `@authenticated` begins already logged in.
+- `storageState.json` is regenerated on every `npm test` run, so it never goes stale.
 
-Step definitions inject clients via the `sessionClient` fixture and the per-test `apiContext` fixture (holds the response between `When` and `Then`).
+### API Architecture
+
+The API testing layer mirrors the page-object pattern, with three pieces:
+
+**1. Clients (`tests/api/clients/`)** — one class per API resource, wrapping HTTP calls:
+
+- `SessionClient` → endpoints under `/session/*` (e.g. `login()`)
+- `LayoutClient` → endpoints under `/layout/*` (e.g. `getSidebar()`)
+
+Each client receives an `APIRequestContext` via constructor and returns raw `APIResponse` objects. Step files own the assertions; clients only know what URL to hit and what method to use.
+
+**2. Worker-scoped sign-in (`apiAuth` fixture)** — defined in `tests/support/fixtures.ts`:
+
+- Runs **once per worker** (not per test), so the sign-in cost is paid only once.
+- Calls `SessionClient.login()` and extracts the `X-CSRF-TOKEN` from the response headers.
+- Exposes `{ csrfToken }` to any test or fixture that depends on `apiAuth`.
+
+**3. Authenticated client fixtures (e.g. `layoutClient`)** — also in `fixtures.ts`:
+
+- Depend on `apiAuth`, so requesting one triggers the sign-in if it hasn't happened yet.
+- Create a request context with the CSRF token baked into headers via `extraHTTPHeaders`.
+- Provide a ready-to-use client whose every call automatically carries the auth header — step files never thread the token manually.
+
+Step files use the per-test `apiContext` fixture to share response state between `When` and `Then`.
+
+### Credentials
+
+`tests/credentials/` holds environment-derived credentials for both UI and API:
+
+- `users.ts` → UI users (`USER1_USERNAME`, `USER2_USERNAME`, …)
+- `apiCredentials.ts` → API user (`API_USERNAME`, `API_PASSWORD`)
+
+Values are exposed via **lazy getters**, so a missing env var only fails the run that actually accesses it (a UI-only run won't crash if `API_USERNAME` isn't set, and vice versa).
 
 ### BDD Flow
 
 1. Feature files (`.feature`) describe scenarios in Gherkin
 2. `bddgen` generates spec files into `.features-gen/`
 3. Playwright runs the generated specs using step definitions and fixtures
+
+**Data tables** can be passed to a step to assert multiple fields on a single response without repeating `And` lines:
+
+```gherkin
+Then the response should contain:
+  | field                      | value                            |
+  | localizedStatusDescription | Operation completed successfully |
+```
 
 ---
 
