@@ -25,3 +25,6 @@ Feature: FPL Office API
   Scenario: Cannot create child FPL office with a non-existent parent FPL office
     When I create a child FPL office with a non-existent parent FPL office
     Then the child FPL office creation should fail because the parent FPL office does not exist
+    And the FPL office response should contain:
+      | field                      | value                                                 |
+      | localizedStatusDescription | Owner FPL Office Not Existing FPL Office doesnt exist |
