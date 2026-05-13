@@ -13,3 +13,9 @@ After({ tags: '@createsFplOffice' }, async ({ fplOfficeClient }) => {
   const response = await fplOfficeClient.delete(fplOfficePayload.id);
   expectResponseStatus(response, 200);
 });
+
+After({ tags: '@createsOrganization' }, async ({ organizationClient, apiContext }) => {
+  const body = await apiContext.response!.json();
+  const response = await organizationClient.delete(body.data.id);
+  expectResponseStatus(response, 200);
+});

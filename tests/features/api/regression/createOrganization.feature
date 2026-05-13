@@ -1,7 +1,7 @@
 @api
 Feature: Organization API
 
-  @createsFplOffice
+  @createsFplOffice @createsOrganization
   Scenario: Create organization successfully
     Given an FPL office exists
     When I create an organization
