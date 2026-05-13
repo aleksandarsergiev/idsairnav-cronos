@@ -10,7 +10,7 @@ When('I create an organization with a non-existent FPL office', async ({ organiz
 });
 
 Then('the organization creation should fail because the FPL office does not exist', async ({ apiContext }) => {
-  expectResponseStatus(apiContext.response!, 400);
+  expectResponseStatus(apiContext.response!, 417);
 });
 
 Then('the organization response should contain:', async ({ apiContext }, dataTable: DataTable) => {
