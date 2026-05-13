@@ -21,3 +21,7 @@ Feature: FPL Office API
     And the FPL office response should contain:
       | field                      | value                                                                      |
       | localizedStatusDescription | If distribution via email is active then an email address must be provided |
+
+  Scenario: Cannot create child FPL office with a non-existent parent FPL office
+    When I create a child FPL office with a non-existent parent FPL office
+    Then the child FPL office creation should fail because the parent FPL office does not exist
