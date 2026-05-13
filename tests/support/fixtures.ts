@@ -7,6 +7,7 @@ import { CreateAccountPage } from '../pages/page/CreateAccountPage';
 import { SessionClient } from '../api/clients/SessionClient';
 import { LayoutClient } from '../api/clients/LayoutClient';
 import { FplOfficeClient } from '../api/clients/FplOfficeClient';
+import { OrganizationClient } from '../api/clients/OrganizationClient';
 import { apiCredentials } from '../credentials/apiCredentials';
 
 export type ApiContext = {
@@ -29,6 +30,7 @@ export const test = base.extend<
     apiContext: ApiContext;
     layoutClient: LayoutClient;
     fplOfficeClient: FplOfficeClient;
+    organizationClient: OrganizationClient;
   },
   {
     apiAuth: ApiAuth;
@@ -78,6 +80,15 @@ export const test = base.extend<
       extraHTTPHeaders: { 'X-CSRF-TOKEN': apiAuth.csrfToken },
     });
     await use(new FplOfficeClient(request));
+    await request.dispose();
+  },
+
+  organizationClient: async ({ apiAuth }, use) => {
+    const request = await apiRequest.newContext({
+      storageState: apiAuth.storageState,
+      extraHTTPHeaders: { 'X-CSRF-TOKEN': apiAuth.csrfToken },
+    });
+    await use(new OrganizationClient(request));
     await request.dispose();
   },
 });
