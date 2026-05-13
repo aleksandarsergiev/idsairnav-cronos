@@ -43,7 +43,6 @@ Then('the FPL office creation should fail because email is required', async ({ a
 });
 
 Then('the child FPL office creation should fail because the parent FPL office does not exist', async ({ apiContext }) => {
-  console.log(await apiContext.response!.json());
   expectResponseStatus(apiContext.response!, 417);
 });
 
