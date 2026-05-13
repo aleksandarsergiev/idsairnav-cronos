@@ -16,3 +16,12 @@ Feature: Organization API
     And the organization response should contain:
       | field                      | value                        |
       | localizedStatusDescription | Fpl office ID does not exist |
+
+  @createsFplOffice
+  Scenario: Cannot create organization without an email notification rule
+    Given an FPL office exists
+    When I create an organization without an email notification rule
+    Then the organization creation should fail because the email notification rule is required
+    And the organization response should contain:
+      | field                      | value                               |
+      | localizedStatusDescription | Email Notification Rule is required |
