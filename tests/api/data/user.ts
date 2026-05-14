@@ -5,7 +5,7 @@ export function userPayload(orgId: number) {
     "userType": "AdminRegistered",
     "login": "ApiAutomationUser",
     "name": "ApiAutomationUser",
-    "email": "ApiAutomationUser@ApiAutomationUser.ApiAutomationUser",
+    "email": "ApiAutomationUser@ApiUser.ApiUser",
     "password": "aftn",
     "password2": "aftn",
     "primaryOrg": {
@@ -34,7 +34,7 @@ export const userWithMissingChildFplOfficePayload = {
     "userType": "AdminRegistered",
     "login": "ApiAutomationUser",
     "name": "ApiAutomationUser",
-    "email": "ApiAutomationUser@ApiAutomationUser.ApiAutomationUser",
+    "email": "ApiAutomationUser@ApiUser.ApiUser",
     "password": "aftn",
     "password2": "aftn",
     "primaryOrg": {
