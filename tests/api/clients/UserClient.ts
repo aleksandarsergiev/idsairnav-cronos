@@ -8,4 +8,8 @@ export class UserClient {
       data: body,
     });
   }
+
+  async delete(id: number): Promise<APIResponse> {
+    return this.request.delete(`${process.env.API_BASE_URL}/users/${id}`);
+  }
 }

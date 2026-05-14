@@ -13,6 +13,8 @@ import { apiCredentials } from '../credentials/apiCredentials';
 
 export type ApiContext = {
   response?: APIResponse;
+  createdOrganizationId?: number;
+  createdUserId?: number;
 };
 
 type StorageState = Awaited<ReturnType<APIRequestContext['storageState']>>;

@@ -15,7 +15,11 @@ After({ tags: '@createsFplOffice' }, async ({ fplOfficeClient }) => {
 });
 
 After({ tags: '@createsOrganization' }, async ({ organizationClient, apiContext }) => {
-  const body = await apiContext.response!.json();
-  const response = await organizationClient.delete(body.data.id);
+  const response = await organizationClient.delete(apiContext.createdOrganizationId!);
+  expectResponseStatus(response, 200);
+});
+
+After({ tags: '@createsUser' }, async ({ userClient, apiContext }) => {
+  const response = await userClient.delete(apiContext.createdUserId!);
   expectResponseStatus(response, 200);
 });

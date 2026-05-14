@@ -7,10 +7,19 @@ import {
 } from '../../api/data/organization';
 import { expectResponseStatus, expectResponseToContain } from '../../api/assertions/responseAssertions';
 
-const { When, Then } = createBdd(test);
+const { Given, When, Then } = createBdd(test);
+
+Given('an organization exists', async ({ organizationClient, apiContext }) => {
+  const response = await organizationClient.create(organizationPayload);
+  expectResponseStatus(response, 200);
+  const body = await response.json();
+  apiContext.createdOrganizationId = body.data.id;
+});
 
 When('I create an organization', async ({ organizationClient, apiContext }) => {
   apiContext.response = await organizationClient.create(organizationPayload);
+  const body = await apiContext.response.json();
+  apiContext.createdOrganizationId = body.data.id;
 });
 
 When('I create an organization with a non-existent FPL office', async ({ organizationClient, apiContext }) => {

@@ -1,3 +1,35 @@
+import { fplOfficePayload } from './fplOffice';
+
+export function userPayload(orgId: number) {
+  return {
+    "userType": "AdminRegistered",
+    "login": "islandUser",
+    "name": "islandUser",
+    "email": "islandUser@islandUser.islandUser",
+    "password": "aftn",
+    "password2": "aftn",
+    "primaryOrg": {
+      "id": orgId,
+      "name": fplOfficePayload.name,
+      "fplof_id": fplOfficePayload.id,
+      "fplOfficeType": fplOfficePayload.type,
+      "fplProposalConfig": {
+        "id": "test:1",
+        "name": "TEST",
+        "initialState": "DRAFT",
+        "scope": "USER",
+        "active": true,
+        "proposalPrefix": "TEST"
+      },
+      "filterAtnSection": false,
+      "useFplOfficeAtnAddresses": false,
+      "useNotamOfficeAtnAddresses": false,
+      "emailNotificationRule": "DISABLED",
+      "protected": false
+    }
+  };
+}
+
 export const userWithMissingChildFplOfficePayload = {
     "userType": "AdminRegistered",
     "login": "islandUser",

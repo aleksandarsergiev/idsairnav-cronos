@@ -1,12 +1,22 @@
 import { createBdd, DataTable } from 'playwright-bdd';
 import { test } from '../../support/fixtures';
-import { userWithMissingChildFplOfficePayload } from '../../api/data/user';
+import { userPayload, userWithMissingChildFplOfficePayload } from '../../api/data/user';
 import { expectResponseStatus, expectResponseToContain } from '../../api/assertions/responseAssertions';
 
 const { When, Then } = createBdd(test);
 
+When('I create a user', async ({ userClient, apiContext }) => {
+  apiContext.response = await userClient.create(userPayload(apiContext.createdOrganizationId!));
+  const body = await apiContext.response.json();
+  apiContext.createdUserId = body.data.id;
+});
+
 When('I create a user linked to a non-existent child FPL office', async ({ userClient, apiContext }) => {
   apiContext.response = await userClient.create(userWithMissingChildFplOfficePayload);
+});
+
+Then('the user should be created successfully', async ({ apiContext }) => {
+  expectResponseStatus(apiContext.response!, 200);
 });
 
 Then('the user creation should fail because the child FPL office does not exist', async ({ apiContext }) => {
