@@ -3,9 +3,9 @@ import { fplOfficePayload } from './fplOffice';
 export function userPayload(orgId: number) {
   return {
     "userType": "AdminRegistered",
-    "login": "islandUser",
-    "name": "islandUser",
-    "email": "islandUser@islandUser.islandUser",
+    "login": "ApiAutomationUser",
+    "name": "ApiAutomationUser",
+    "email": "ApiAutomationUser@ApiAutomationUser.ApiAutomationUser",
     "password": "aftn",
     "password2": "aftn",
     "primaryOrg": {
@@ -32,9 +32,9 @@ export function userPayload(orgId: number) {
 
 export const userWithMissingChildFplOfficePayload = {
     "userType": "AdminRegistered",
-    "login": "islandUser",
-    "name": "islandUser",
-    "email": "islandUser@islandUser.islandUser",
+    "login": "ApiAutomationUser",
+    "name": "ApiAutomationUser",
+    "email": "ApiAutomationUser@ApiAutomationUser.ApiAutomationUser",
     "password": "aftn",
     "password2": "aftn",
     "primaryOrg": {
