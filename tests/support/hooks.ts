@@ -23,3 +23,8 @@ After({ tags: '@createsUser' }, async ({ userClient, apiContext }) => {
   const response = await userClient.delete(apiContext.createdUserId!);
   expectResponseStatus(response, 200);
 });
+
+After({ tags: '@createsSector' }, async ({ sectorClient, apiContext }) => {
+  const response = await sectorClient.delete(apiContext.createdSectorId!);
+  expectResponseStatus(response, 200);
+});

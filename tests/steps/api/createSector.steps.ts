@@ -7,6 +7,8 @@ const { When, Then } = createBdd(test);
 
 When('I create a sector', async ({ sectorClient, apiContext }) => {
   apiContext.response = await sectorClient.create(sectorPayload);
+  const body = await apiContext.response.json();
+  apiContext.createdSectorId = body.data.id;
 });
 
 When('I create a sector with lower limit flight level greater than upper limit flight level', async ({ sectorClient, apiContext }) => {

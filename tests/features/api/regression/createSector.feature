@@ -1,6 +1,7 @@
 @api
 Feature: Sector API
 
+  @createsSector
   Scenario: Create sector successfully
     When I create a sector
     Then the sector should be created successfully

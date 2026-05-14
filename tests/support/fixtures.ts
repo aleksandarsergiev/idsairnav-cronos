@@ -16,6 +16,7 @@ export type ApiContext = {
   response?: APIResponse;
   createdOrganizationId?: number;
   createdUserId?: number;
+  createdSectorId?: number;
 };
 
 type StorageState = Awaited<ReturnType<APIRequestContext['storageState']>>;
