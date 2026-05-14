@@ -6,7 +6,7 @@
     "test:smoke": "bddgen && playwright test --project=\"Smoke Tests\"",
     "test:regression": "bddgen && playwright test --project=\"Regression Tests\"",
     "test:e2e": "bddgen && playwright test --project=\"E2E Tests\"",
-    "test:api": "bddgen && playwright test --project=\"API Tests\"",
+    "test:api": "bddgen && playwright test --workers=1 --project=\"API Tests\"",
     "test:headed": "bddgen && playwright test --headed",
     "test:report": "playwright show-report",
     "bddgen": "bddgen"
