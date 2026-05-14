@@ -7,7 +7,7 @@ export const sectorWithInvalidFlightLevelLimitsPayload = {
   },
   "metarTaf": {},
   "warnings": {},
-  "icao_id": "Automation Island sector",
+  "icao_id": "API Automation Sector",
   "metReportFilterList": [
     {
       "airport": {
