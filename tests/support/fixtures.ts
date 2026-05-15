@@ -26,6 +26,19 @@ export type ApiAuth = {
   storageState: StorageState;
 };
 
+type ClientConstructor<T> = new (request: APIRequestContext) => T;
+
+function authenticatedClient<T>(ClientClass: ClientConstructor<T>) {
+  return async ({ apiAuth }: { apiAuth: ApiAuth }, use: (client: T) => Promise<void>) => {
+    const request = await apiRequest.newContext({
+      storageState: apiAuth.storageState,
+      extraHTTPHeaders: { 'X-CSRF-TOKEN': apiAuth.csrfToken },
+    });
+    await use(new ClientClass(request));
+    await request.dispose();
+  };
+}
+
 export const test = base.extend<
   {
     loginPage: LoginPage;
@@ -72,48 +85,9 @@ export const test = base.extend<
     { scope: 'worker' },
   ],
 
-  layoutClient: async ({ apiAuth }, use) => {
-    const request = await apiRequest.newContext({
-      storageState: apiAuth.storageState,
-      extraHTTPHeaders: { 'X-CSRF-TOKEN': apiAuth.csrfToken },
-    });
-    await use(new LayoutClient(request));
-    await request.dispose();
-  },
-
-  fplOfficeClient: async ({ apiAuth }, use) => {
-    const request = await apiRequest.newContext({
-      storageState: apiAuth.storageState,
-      extraHTTPHeaders: { 'X-CSRF-TOKEN': apiAuth.csrfToken },
-    });
-    await use(new FplOfficeClient(request));
-    await request.dispose();
-  },
-
-  organizationClient: async ({ apiAuth }, use) => {
-    const request = await apiRequest.newContext({
-      storageState: apiAuth.storageState,
-      extraHTTPHeaders: { 'X-CSRF-TOKEN': apiAuth.csrfToken },
-    });
-    await use(new OrganizationClient(request));
-    await request.dispose();
-  },
-
-  userClient: async ({ apiAuth }, use) => {
-    const request = await apiRequest.newContext({
-      storageState: apiAuth.storageState,
-      extraHTTPHeaders: { 'X-CSRF-TOKEN': apiAuth.csrfToken },
-    });
-    await use(new UserClient(request));
-    await request.dispose();
-  },
-
-  sectorClient: async ({ apiAuth }, use) => {
-    const request = await apiRequest.newContext({
-      storageState: apiAuth.storageState,
-      extraHTTPHeaders: { 'X-CSRF-TOKEN': apiAuth.csrfToken },
-    });
-    await use(new SectorClient(request));
-    await request.dispose();
-  },
+  layoutClient: authenticatedClient(LayoutClient),
+  fplOfficeClient: authenticatedClient(FplOfficeClient),
+  organizationClient: authenticatedClient(OrganizationClient),
+  userClient: authenticatedClient(UserClient),
+  sectorClient: authenticatedClient(SectorClient),
 });
