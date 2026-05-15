@@ -28,3 +28,8 @@ After({ tags: '@createsSector' }, async ({ sectorClient, apiContext }) => {
   const response = await sectorClient.delete(apiContext.createdSectorId!);
   expectResponseStatus(response, 200);
 });
+
+After({ tags: '@createsPermissionGroup' }, async ({ permissionGroupClient, apiContext }) => {
+  const response = await permissionGroupClient.delete(apiContext.createdPermissionGroupId!);
+  expectResponseStatus(response, 200);
+});

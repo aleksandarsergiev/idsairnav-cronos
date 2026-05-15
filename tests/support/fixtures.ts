@@ -10,6 +10,7 @@ import { FplOfficeClient } from '../api/clients/FplOfficeClient';
 import { OrganizationClient } from '../api/clients/OrganizationClient';
 import { UserClient } from '../api/clients/UserClient';
 import { SectorClient } from '../api/clients/SectorClient';
+import { PermissionGroupClient } from '../api/clients/PermissionGroupClient';
 import { apiCredentials } from '../credentials/apiCredentials';
 
 export type ApiContext = {
@@ -17,6 +18,7 @@ export type ApiContext = {
   createdOrganizationId?: number;
   createdUserId?: number;
   createdSectorId?: number;
+  createdPermissionGroupId?: number;
 };
 
 type StorageState = Awaited<ReturnType<APIRequestContext['storageState']>>;
@@ -51,6 +53,7 @@ export const test = base.extend<
     organizationClient: OrganizationClient;
     userClient: UserClient;
     sectorClient: SectorClient;
+    permissionGroupClient: PermissionGroupClient;
   },
   {
     apiAuth: ApiAuth;
@@ -90,4 +93,5 @@ export const test = base.extend<
   organizationClient: authenticatedClient(OrganizationClient),
   userClient: authenticatedClient(UserClient),
   sectorClient: authenticatedClient(SectorClient),
+  permissionGroupClient: authenticatedClient(PermissionGroupClient),
 });
