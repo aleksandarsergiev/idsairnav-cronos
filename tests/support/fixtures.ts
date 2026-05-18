@@ -4,6 +4,7 @@ import { LoginPage } from '../pages/page/LoginPage';
 import { HomePage } from '../pages/page/HomePage';
 import { ForgotPasswordPage } from '../pages/page/ForgotPasswordPage';
 import { CreateAccountPage } from '../pages/page/CreateAccountPage';
+import { CheckoutPage } from '../pages/page/CheckoutPage';
 import { SessionClient } from '../api/clients/SessionClient';
 import { LayoutClient } from '../api/clients/LayoutClient';
 import { FplOfficeClient } from '../api/clients/FplOfficeClient';
@@ -47,6 +48,7 @@ export const test = base.extend<
     homePage: HomePage;
     forgotPasswordPage: ForgotPasswordPage;
     createAccountPage: CreateAccountPage;
+    checkoutPage: CheckoutPage;
     apiContext: ApiContext;
     layoutClient: LayoutClient;
     fplOfficeClient: FplOfficeClient;
@@ -70,6 +72,9 @@ export const test = base.extend<
   },
   createAccountPage: async ({ page }, use) => {
     await use(new CreateAccountPage(page));
+  },
+  checkoutPage: async ({ page }, use) => {
+    await use(new CheckoutPage(page));
   },
   apiContext: async ({}, use) => {
     await use({});
