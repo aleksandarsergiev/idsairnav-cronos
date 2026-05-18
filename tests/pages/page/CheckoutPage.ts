@@ -15,8 +15,18 @@ export class CheckoutPage extends BasePage {
     await this.dismissCookieBanner();
   }
 
+  async fillForm(data: Record<string, string>) {
+    for (const [label, value] of Object.entries(data)) {
+      await this.page.getByLabel(label).fill(value);
+    }
+  }
+
   async clickPay() {
     await this.locators.submitButton.click();
+  }
+
+  async assertSuccessMessage(message: string) {
+    await expect(this.locators.successHeading).toHaveText(message);
   }
 
   async getAllFieldErrors(): Promise<string[]> {
