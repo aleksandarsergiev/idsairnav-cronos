@@ -5,9 +5,12 @@ export class ForgotPasswordPageLocators {
   readonly emailInput: Locator;
   readonly submitButton: Locator;
 
+  readonly errorMessage: Locator;
+
   constructor(page: Page) {
     this.heading = page.getByRole('heading', { name: 'Forgot Password?' });
     this.emailInput = page.getByLabel('Email Address');
     this.submitButton = page.getByRole('button', { name: 'Get Reset Token' });
+    this.errorMessage = page.locator('.alert.alert-error');
   }
 }

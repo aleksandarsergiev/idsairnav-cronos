@@ -15,8 +15,16 @@ export class ForgotPasswordPage extends BasePage {
     await this.dismissCookieBanner();
   }
 
+  async fillEmail(email: string) {
+    await this.locators.emailInput.fill(email);
+  }
+
   async clickGetResetToken() {
     await this.locators.submitButton.click();
+  }
+
+  get errorMessage() {
+    return this.locators.errorMessage;
   }
 
   async getEmailValidity() {

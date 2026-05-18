@@ -8,6 +8,12 @@ Feature: Forgot Password Navigation
     Then the forgot password page heading should be "Forgot Password?"
     And the forgot password page url should contain "/forgot-password"
 
+  Scenario: Submitting the Forgot Password form with a non-existing email shows an error
+    Given I navigate to the Forgot Password Page
+    When I enter "testno@no.com" as the email address
+    And I click the get reset token button
+    Then I should see the forgot password error message "No account found with that email address"
+
   Scenario: Submitting the Forgot Password form with no email keeps the user on the page
     Given I navigate to the Forgot Password Page
     When I click the get reset token button
