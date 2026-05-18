@@ -9,6 +9,12 @@ Feature: Organization API
     And the organization response should contain:
       | field                      | value                            |
       | localizedStatusDescription | Operation completed successfully |
+    And the created organization should have:
+      | field | value          |
+      | name  | API AUTOMATION |
+    And the created organization should have fields:
+      | field |
+      | id    |
 
   Scenario: Cannot create organization when FPL office does not exist
     When I create an organization with a non-existent FPL office

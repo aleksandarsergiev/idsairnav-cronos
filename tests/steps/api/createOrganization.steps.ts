@@ -5,7 +5,12 @@ import {
   organizationWithMissingEmailRulePayload,
   organizationWithMissingFplOfficePayload,
 } from '../../api/data/organization';
-import { expectResponseStatus, expectResponseToContain } from '../../api/assertions/responseAssertions';
+import {
+  expectResponseFieldsToEqual,
+  expectResponseFieldsToExist,
+  expectResponseStatus,
+  expectResponseToContain,
+} from '../../api/assertions/responseAssertions';
 
 const { Given, When, Then } = createBdd(test);
 
@@ -44,4 +49,12 @@ Then('the organization creation should fail because the email notification rule 
 
 Then('the organization response should contain:', async ({ apiContext }, dataTable: DataTable) => {
   await expectResponseToContain(apiContext.response!, dataTable);
+});
+
+Then('the created organization should have:', async ({ apiContext }, dataTable: DataTable) => {
+  await expectResponseFieldsToEqual(apiContext.response!, dataTable, 'data.');
+});
+
+Then('the created organization should have fields:', async ({ apiContext }, dataTable: DataTable) => {
+  await expectResponseFieldsToExist(apiContext.response!, dataTable, 'data.');
 });
