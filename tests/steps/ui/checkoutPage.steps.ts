@@ -7,7 +7,7 @@ Given('I navigate to the Checkout Page', async ({ checkoutPage }) => {
   await checkoutPage.navigate();
 });
 
-When('I click the Pay button', async ({ checkoutPage }) => {
+When('I click the Pay button without entering any of the required fields', async ({ checkoutPage }) => {
   await checkoutPage.clickPay();
 });
 

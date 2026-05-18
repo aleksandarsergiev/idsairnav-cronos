@@ -3,7 +3,7 @@ Feature: Checkout Form Validation
 
   Scenario: Submitting the Checkout form with all fields empty shows validation errors on all required fields
     Given I navigate to the Checkout Page
-    When I click the Pay button
+    When I click the Pay button without entering any of the required fields
     Then I should see the following field errors:
       | Cardholder name is required.                       |
       | Enter a valid card number (13–19 digits).          |
