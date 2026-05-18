@@ -7,3 +7,9 @@ Feature: Forgot Password Navigation
     And I click the forgot password link
     Then the forgot password page heading should be "Forgot Password?"
     And the forgot password page url should contain "/forgot-password"
+
+  Scenario: Submitting the Forgot Password form with no email keeps the user on the page
+    Given I navigate to the Forgot Password Page
+    When I click the get reset token button
+    Then the email field should report a required validation error
+    And the forgot password page url should contain "/forgot-password"
