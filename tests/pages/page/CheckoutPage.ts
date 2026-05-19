@@ -1,4 +1,4 @@
-import { Page, expect } from '@playwright/test';
+import { Page } from '@playwright/test';
 import { CheckoutPageLocators } from '../locators/CheckoutPageLocators';
 import { BasePage } from './BasePage';
 
@@ -25,20 +25,13 @@ export class CheckoutPage extends BasePage {
     await this.locators.submitButton.click();
   }
 
-  async assertSuccessMessage(message: string) {
-    await expect(this.locators.successHeading).toHaveText(message);
-  }
-
   async getAllFieldErrors(): Promise<string[]> {
     await this.locators.fieldErrors.filter({ hasText: /.+/ }).first().waitFor();
     const texts = await this.locators.fieldErrors.allTextContents();
     return texts.filter(t => t.trim() !== '');
   }
 
-  async assertFieldErrors(expectedErrors: string[]): Promise<void> {
-    const actualErrors = await this.getAllFieldErrors();
-    for (const error of expectedErrors) {
-      expect(actualErrors).toContain(error);
-    }
+  get successHeading() {
+    return this.locators.successHeading;
   }
 }

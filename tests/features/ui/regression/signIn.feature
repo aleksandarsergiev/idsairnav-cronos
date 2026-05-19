@@ -11,6 +11,7 @@ Feature: Sign In
       | user1 |
       | user2 |
 
+  # The dummy site silently ignores the first invalid submit; the error only appears on the second attempt.
   Scenario: User fails to sign in with invalid credentials
     Given I navigate to the Login Page
     When I fill in the username with "invalidUser"

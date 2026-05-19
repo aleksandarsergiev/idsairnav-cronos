@@ -1,4 +1,6 @@
+import { required } from '../support/env';
+
 export const apiCredentials = {
-  get userLogin() { return process.env.API_USERNAME ?? ''; },
-  get password() { return process.env.API_PASSWORD ?? ''; },
+  get userLogin() { return required('API_USERNAME'); },
+  get password() { return required('API_PASSWORD'); },
 };

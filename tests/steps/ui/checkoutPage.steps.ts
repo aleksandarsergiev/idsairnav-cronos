@@ -1,3 +1,4 @@
+import { expect } from '@playwright/test';
 import { createBdd, DataTable } from 'playwright-bdd';
 import { test } from '../../support/fixtures';
 
@@ -16,10 +17,11 @@ When('I click the Pay button', async ({ checkoutPage }) => {
 });
 
 Then('I should see the success message {string}', async ({ checkoutPage }, message: string) => {
-  await checkoutPage.assertSuccessMessage(message);
+  await expect(checkoutPage.successHeading).toHaveText(message);
 });
 
 Then('I should see the following field errors:', async ({ checkoutPage }, table: DataTable) => {
-  const expectedErrors = table.raw().map((row: string[]) => row[0]);
-  await checkoutPage.assertFieldErrors(expectedErrors);
+  const expected = table.raw().map((row: string[]) => row[0]);
+  const actual = await checkoutPage.getAllFieldErrors();
+  expect(actual).toEqual(expect.arrayContaining(expected));
 });

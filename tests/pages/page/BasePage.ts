@@ -5,8 +5,6 @@ export abstract class BasePage {
 
   protected async dismissCookieBanner() {
     const acceptButton = this.page.getByRole('button', { name: 'Accept' });
-    if (await acceptButton.isVisible()) {
-      await acceptButton.click();
-    }
+    await acceptButton.click({ timeout: 2000 }).catch(() => {});
   }
 }
