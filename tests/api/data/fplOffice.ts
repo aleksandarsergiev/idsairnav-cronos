@@ -278,8 +278,8 @@ export const childFplOfficeWithMissingParentFplOfficePayload = {
         "O"
     ],
     "defaultAdmpView": "LOCAL_REPORT",
-    "id": "AUTOMATION ISLAND A",
-    "name": "AUTOMATION ISLAND A",
+    "id": "AUTOMATION ISLAND AAA",
+    "name": "AUTOMATION ISLAND AAA",
     "isForAdmp": true,
     "owned_by": "Not Existing FPL Office",
     "type": "ATSU",
