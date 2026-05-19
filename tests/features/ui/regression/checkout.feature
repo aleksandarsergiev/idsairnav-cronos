@@ -1,7 +1,7 @@
 @regression
 Feature: Checkout Form Validation
 
-  Scenario: Successful payment shows the Order Confirmed message
+  Scenario: Successful payment shows the Order Confirmed message and receipt details
     Given I navigate to the Checkout Page
     When I fill in the checkout form with the following details:
       | Cardholder name   | Visa Test User          |
@@ -13,7 +13,11 @@ Feature: Checkout Form Validation
       | ZIP / Postal code | 62701                   |
       | Country           | United States           |
     And I click the Pay button
-    Then I should see the success message "Order Confirmed"
+    Then the payment confirmation should show:
+      | success message | Order Confirmed |
+      | cardholder name | Visa Test User  |
+      | amount          | $42.00          |
+      | card ending     | 1111            |
 
   Scenario: Submitting the Checkout form with all fields empty shows validation errors on all required fields
     Given I navigate to the Checkout Page

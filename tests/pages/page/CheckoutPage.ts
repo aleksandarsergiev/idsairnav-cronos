@@ -1,4 +1,4 @@
-import { Page } from '@playwright/test';
+import { expect, Page } from '@playwright/test';
 import { CheckoutPageLocators } from '../locators/CheckoutPageLocators';
 import { BasePage } from './BasePage';
 
@@ -25,13 +25,17 @@ export class CheckoutPage extends BasePage {
     await this.locators.submitButton.click();
   }
 
-  async getAllFieldErrors(): Promise<string[]> {
+  async assertFieldErrors(expected: string[]) {
     await this.locators.fieldErrors.filter({ hasText: /.+/ }).first().waitFor();
-    const texts = await this.locators.fieldErrors.allTextContents();
-    return texts.filter(t => t.trim() !== '');
+    const actual = (await this.locators.fieldErrors.allTextContents()).filter(t => t.trim() !== '');
+    expect(actual).toEqual(expect.arrayContaining(expected));
   }
 
-  get successHeading() {
-    return this.locators.successHeading;
+  async assertConfirmation(data: Record<string, string>) {
+    await expect(this.locators.successHeading).toHaveText(data['success message']);
+    await expect(this.locators.receiptName).toHaveText(data['cardholder name']);
+    await expect(this.locators.receiptAmount).toHaveText(data['amount']);
+    await expect(this.locators.receiptCard).toContainText(data['card ending']);
+    await expect(this.locators.receiptOrderId).toHaveText(/^#[A-Z0-9]+$/);
   }
 }
