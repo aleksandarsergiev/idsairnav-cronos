@@ -20,15 +20,15 @@ A BDD-based test automation framework built with [Playwright](https://playwright
 ```
 tests/
 ├── api/
-│   └── clients/            # API client classes (per resource)
+│   ├── assertions/         # Reusable API response assertions
+│   ├── clients/            # API client classes (per resource)
+│   └── data/               # API request payload builders
 ├── credentials/            # Environment-derived credentials (UI & API)
 ├── features/               # Gherkin feature files
 │   ├── api/
-│   │   ├── regression/
-│   │   └── sanity/
+│   │   └── regression/
 │   └── ui/
-│       ├── regression/
-│       └── sanity/
+│       └── regression/
 ├── pages/
 │   ├── locators/           # Playwright locators per page
 │   └── page/               # Page classes with actions & getters
@@ -36,6 +36,7 @@ tests/
 │   ├── api/                # API step definitions
 │   └── ui/                 # UI step definitions
 └── support/
+    ├── env.ts              # Env var loader with fail-fast validation
     ├── fixtures.ts         # Custom Playwright fixtures
     ├── globalSetup.ts      # One-time setup (storageState login)
     └── hooks.ts            # BDD hooks
@@ -144,8 +145,13 @@ The API testing layer mirrors the page-object pattern, with three pieces:
 
 **1. Clients (`tests/api/clients/`)** — one class per API resource, wrapping HTTP calls:
 
-- `SessionClient` → endpoints under `/session/*` (e.g. `login()`)
-- `LayoutClient` → endpoints under `/layout/*` (e.g. `getSidebar()`)
+- `SessionClient` → `/session/*` (e.g. `login()`)
+- `LayoutClient` → `/layout/*` (e.g. `getSidebar()`)
+- `FplOfficeClient` → `/fploffices/*` (`create()`, `delete()`)
+- `OrganizationClient` → `/orgs/*` (`create()`, `delete()`)
+- `UserClient` → `/users/*` (`create()`, `delete()`)
+- `SectorClient` → `/admp/sector/*` (`create()`, `delete()`)
+- `PermissionGroupClient` → `/groups/*` (`create()`, `delete()`)
 
 Each client receives an `APIRequestContext` via constructor and returns raw `APIResponse` objects. Step files own the assertions; clients only know what URL to hit and what method to use.
 
@@ -170,7 +176,7 @@ Step files use the per-test `apiContext` fixture to share response state between
 - `users.ts` → UI users (`USER1_USERNAME`, `USER2_USERNAME`, …)
 - `apiCredentials.ts` → API user (`API_USERNAME`, `API_PASSWORD`)
 
-Values are exposed via **lazy getters**, so a missing env var only fails the run that actually accesses it (a UI-only run won't crash if `API_USERNAME` isn't set, and vice versa).
+Values are exposed via **lazy getters** that route through the `required()` helper in [`tests/support/env.ts`](tests/support/env.ts). A missing env var only fails the run that actually accesses it (a UI-only run won't crash if `API_USERNAME` isn't set, and vice versa) — but when it does fail, it throws a clear `Missing required env var: <NAME>. Check your .env file.` message instead of silently using an empty string.
 
 ### BDD Flow
 
